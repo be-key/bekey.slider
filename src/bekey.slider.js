@@ -94,8 +94,7 @@
 				$CurrentItem = $Slider.find('.Slider-item:eq(' + i + ')');
 				$NextItem = $Slider.find('.Slider-item:eq(' + j + ')');
 
-				$NextItem.stop(true, true);
-
+				
 				//Affiche le point correspondant à l'item actif
 				currentDotNav(j);
 
@@ -120,8 +119,6 @@
 				$CurrentItem = $Slider.find('.Slider-item:eq(' + i + ')');
 				$previousItem = $Slider.find('.Slider-item:eq(' + j + ')');
 
-				$NextItem.stop(true, true);
-				
 				//Affiche le point correspondant à l'item actif
 				currentDotNav(j);
 
