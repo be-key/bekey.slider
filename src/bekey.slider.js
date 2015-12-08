@@ -192,9 +192,10 @@
 				var indexItem = $('.SliderDotNav-item').index( this );
 				var positionCurrentItem = i;
 
-				if( $('.SliderDotNav-item:eq(' + indexItem + ')').hasClass('SliderDotNav-item--current') !== true ){
+				if( $('.SliderDotNav-item:eq(' + indexItem + ')').hasClass('SliderDotNav-item--current') !== true && clicked == false){
 
 					i = indexItem;
+                    clicked = true;
 
 					//Masque l'item en cours et affiche l'item correpondant à l'item "dotNav" sélectionné
 					if( options.effect === 'fade' ){
