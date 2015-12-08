@@ -31,6 +31,7 @@
 		var positionSlider2 = {};
 		var positionSliderInit = {};
 		var authorizeDirection = ['up', 'down', 'right', 'left'];
+        var clicked = false;
 
 		//options.startItem = options.startItem - 1;
 
@@ -43,7 +44,7 @@
 			$Slider.find('.Slider-item:eq(' + options.startItem + ')').css('display', 'block').addClass('current');
 
 		}else if( options.effect === 'slide' ){
-			
+
 			//Test si le mouvement du slider existe
 			if( $.inArray( options.direction, authorizeDirection ) === -1 ){
 				options.direction = 'right';
@@ -58,7 +59,7 @@
 			});
 
 			$Slider.find('.Slider-item:eq(' + options.startItem + ')').css(positionSliderInit).addClass('current');
-			
+
 		}
 
 		//Calcule la hauteur du slider au chargement, en fonction de la hauteur du premier item
@@ -72,7 +73,7 @@
 		//Mets en place la navigation par points
 		dotNav();
 
-		//Option pause/play du slider au hover du conteneur 
+		//Option pause/play du slider au hover du conteneur
 		$(document).on('mouseenter', '.Slider', function(e) {
 			clearInterval(sliderInterval);
 		});
@@ -84,8 +85,9 @@
 		$(document).on('click', '.Slider-nav', function(e){
 
 			var $currentItem, $NextItem;
+
 			//Next / Right
-			if( $(this).attr('data-nav') === 'next' ){
+			if( $(this).attr('data-nav') === 'next' && clicked == false){
 
 				if( i >= numberItem){ i = 0; }
 				j = i + parseInt(1);
@@ -93,8 +95,8 @@
 
 				$CurrentItem = $Slider.find('.Slider-item:eq(' + i + ')');
 				$NextItem = $Slider.find('.Slider-item:eq(' + j + ')');
+                clicked = true;
 
-				
 				//Affiche le point correspondant à l'item actif
 				currentDotNav(j);
 
@@ -110,14 +112,15 @@
 				i++;
 
 			//Previous / Left
-			}else if( $(this).attr('data-nav') === 'previous' ){
-				
+        }else if( $(this).attr('data-nav') === 'previous' && clicked == false){
+
 				if( i <= -1){ i = numberItem  - 1; }
 				j = i - 1;
 				if( j <= -1){ j = numberItem -1; }
 
 				$CurrentItem = $Slider.find('.Slider-item:eq(' + i + ')');
 				$previousItem = $Slider.find('.Slider-item:eq(' + j + ')');
+                clicked = true;
 
 				//Affiche le point correspondant à l'item actif
 				currentDotNav(j);
@@ -132,7 +135,7 @@
 				}
 
 				i--;
-				
+
 			}
 
 		})
@@ -148,7 +151,7 @@
 			var $CurrentItem = $Slider.find('.Slider-item:eq(' + i + ')');
 			var $NextItem = $Slider.find('.Slider-item:eq(' + j + ')');
 			var $PreviousItem = $Slider.find('.Slider-item:eq(' + k + ')');
-			
+
 			//Affiche le point correspondant à l'item actif
 			currentDotNav(j);
 
@@ -162,7 +165,7 @@
 				//Animation slide
 				slide( options.direction, $Slider, $CurrentItem, $NextItem );
 			}
-			
+
 			i++;
 
 		};
@@ -212,7 +215,7 @@
 					//Affiche le point correspondant à l'item actif
 					currentDotNav(indexItem);
 
-				}				
+				}
 
 			});
 		}
@@ -223,7 +226,9 @@
 		}
 
 		function fadeInOut(content, next){
-			content.find('.current').removeClass('current').css({ 'z-index' : '9999' }).fadeOut(options.animSpeed);
+			content.find('.current').removeClass('current').css({ 'z-index' : '9999' }).fadeOut(options.animSpeed, function(){
+                clicked = false;
+            });
 			next.addClass('current').css('display', 'block').css({ 'z-index' : '0' });
 		}
 
@@ -257,7 +262,7 @@
 				positionSlider();
 				$SliderItem.width( content.width() ).css( positionSlider2 );
 				$Slider.find('.current').css( positionSliderInit );
-				
+
 			})
 
 			$SliderItem.width( content.width() ).css( positionSlider2 );
@@ -267,7 +272,9 @@
 			current.animate( positionSlider1 ,1000 , function(){
 				$(this).css( positionSlider2 ).removeClass('current')
 			});
-			next.addClass('current').css({ 'display' : 'block' }).animate( positionSliderInit ,1000);
+			next.addClass('current').css({ 'display' : 'block' }).animate( positionSliderInit ,1000, function(){
+                clicked = false;
+            });
 
 		}
 
@@ -285,7 +292,7 @@
 
 		}
 
-        
+
     };
 
 })(jQuery);
